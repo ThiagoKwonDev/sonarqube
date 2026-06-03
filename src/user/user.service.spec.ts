@@ -21,7 +21,9 @@ describe('UserService', () => {
 
     const result = await service.create('teste', 'senha');
 
-    expect(mockRepository.findOneBy).toHaveBeenCalledWith({ username: 'teste' });
+    expect(mockRepository.findOneBy).toHaveBeenCalledWith({
+      username: 'teste',
+    });
     expect(mockRepository.save).toHaveBeenCalledTimes(1);
     expect(result).toEqual(savedUser);
   });
@@ -29,7 +31,9 @@ describe('UserService', () => {
   it('deve lançar UnauthorizedException quando usuário já existir', async () => {
     mockRepository.findOneBy.mockResolvedValue({ id: 1, username: 'teste' });
 
-    await expect(service.create('teste', 'senha')).rejects.toThrow(UnauthorizedException);
+    await expect(service.create('teste', 'senha')).rejects.toThrow(
+      UnauthorizedException,
+    );
     expect(mockRepository.save).not.toHaveBeenCalled();
   });
 
@@ -39,11 +43,9 @@ describe('UserService', () => {
 
     const result = await service.findByUserName('teste');
 
-    expect(mockRepository.findOneBy).toHaveBeenCalledWith({ username: 'teste' });
+    expect(mockRepository.findOneBy).toHaveBeenCalledWith({
+      username: 'teste',
+    });
     expect(result).toEqual(user);
-  });
-
-  it('deve falhar intencionalmente para mostrar teste quebrado', () => {
-    expect(true).toBe(false);
   });
 });
