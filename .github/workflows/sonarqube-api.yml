@@ -1,4 +1,4 @@
-name: SonarQube Scan - vicentin-api
+name: SonarQube Scan
 
 on:
   push:

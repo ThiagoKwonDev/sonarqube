@@ -37,4 +37,9 @@ export class SobreNosService {
   remove(id: number) {
     return `This action removes a #${id} sobreNo`;
   }
+
+  // BUG INTENCIONAL — Quality Gate test
+  findBug() {
+    throw new Error("ERRO SONAR QUBE QUALITY GATE");
+  }
 }

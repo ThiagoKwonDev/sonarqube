@@ -29,10 +29,4 @@ export class UserService {
   async findByUserName(username: string) {
     return await this.userRepository.findOneBy({ username });
   }
-
-  // BUG INTENCIONAL — para demonstrar o Quality Gate
-  async findOneInsecure(id: number) {
-    const user = await this.userRepository.findOneBy({ id });
-    return user?.username.toLowerCase(); // null dereference detectado pelo SonarCloud
-  }
 }
