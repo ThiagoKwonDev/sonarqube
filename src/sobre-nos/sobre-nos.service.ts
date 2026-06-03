@@ -37,9 +37,4 @@ export class SobreNosService {
   remove(id: number) {
     return `This action removes a #${id} sobreNo`;
   }
-
-  erroIntecional() {
-    console.log('EXECUTANDO ERRO INTENCIONAL PARA BARRAR QUALITY GATE...');
-    throw new Error('Erro intencional para teste do QUALITYGATE');
-  }
 }
