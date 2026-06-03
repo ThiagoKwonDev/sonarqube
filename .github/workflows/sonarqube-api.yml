@@ -1,0 +1,58 @@
+name: SonarQube Scan - vicentin-api
+
+on:
+  push:
+    branches: [main, master]
+    paths: ['vicentin-api/**']
+  pull_request:
+    paths: ['vicentin-api/**']
+  workflow_dispatch:
+
+jobs:
+  sonar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: vicentin-api/package-lock.json
+
+      - run: npm ci
+        working-directory: vicentin-api
+
+      - run: npm run test:cov
+        working-directory: vicentin-api
+        continue-on-error: true
+
+      - uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: vicentin-api
+
+      - name: Quality Gate
+        run: |
+          FILE="vicentin-api/.scannerwork/report-task.txt"
+          TASK=$(grep "ceTaskUrl=" $FILE | cut -d'=' -f2-)
+          KEY=$(grep "projectKey=" $FILE | cut -d'=' -f2-)
+          HOST=$(grep "serverUrl=" $FILE | cut -d'=' -f2-)
+
+          for i in $(seq 1 30); do
+            S=$(curl -s -u "${{ secrets.SONAR_TOKEN }}:" "$TASK" | python3 -c "import sys,json; print(json.load(sys.stdin)['task']['status'])")
+            echo "[$i] $S"
+            [ "$S" = "SUCCESS" ] && break
+            [ "$S" = "FAILED" ] && exit 1
+            sleep 10
+          done
+
+          QG=$(curl -s -u "${{ secrets.SONAR_TOKEN }}:" "$HOST/api/qualitygates/project_status?projectKey=$KEY" | python3 -c "import sys,json; print(json.load(sys.stdin)['projectStatus']['status'])")
+          echo "Quality Gate: $QG"
+          [ "$QG" != "OK" ] && echo "❌ FALHOU" && exit 1
+          echo "✅ PASSOU"
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
