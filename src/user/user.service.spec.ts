@@ -42,8 +42,4 @@ describe('UserService', () => {
     expect(mockRepository.findOneBy).toHaveBeenCalledWith({ username: 'teste' });
     expect(result).toEqual(user);
   });
-
-  it('deve falhar intencionalmente para mostrar teste quebrado', () => {
-    expect(true).toBe(false);
-  });
 });
