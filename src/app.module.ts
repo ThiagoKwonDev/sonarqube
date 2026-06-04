@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { SobreNosModule } from './sobre-nos/sobre-nos.module';
 import { ServicoModule } from './servico/servico.module';
 import { AuthModule } from './auth/auth.module';
+import { QualityGateModule } from './quality-gate/quality-gate.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PublicController } from './public/public.controller';
 
@@ -36,6 +37,7 @@ import { PublicController } from './public/public.controller';
     SobreNosModule,
     ServicoModule,
     AuthModule,
+    QualityGateModule,
   ],
   controllers: [PublicController],
 })
