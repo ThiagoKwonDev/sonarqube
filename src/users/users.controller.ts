@@ -1,4 +1,4 @@
-import { Controller, Get, Put, Body, UseGuards, Request, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Put, Body, Request, NotFoundException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 
