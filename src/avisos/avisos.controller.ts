@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Query, UseGuards, Request, Param, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Param, Put, Delete } from '@nestjs/common';
 import { AvisosService } from './avisos.service';
 import { CreateAvisoDto } from './dto/create-aviso.dto';
 import { GetAvisosFilterDto } from './dto/get-avisos-filter.dto';
