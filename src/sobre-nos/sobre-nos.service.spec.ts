@@ -29,4 +29,10 @@ describe('SobreNosService', () => {
   it('deve retornar a string esperada em findOne', () => {
     expect(service.findOne(3)).toBe('This action returns a #3 sobreNo');
   });
+
+  it('deve lançar erro intencional', () => {
+    expect(() => service.erroIntencional()).toThrow(
+      'Erro intencional para teste do QUALITYGATE',
+    );
+  });
 });
